@@ -15,14 +15,15 @@ const DeleteButton = ({id}: {id: string}) => {
         This action cannot be undone. This will permanently delete this data.
       </DialogDescription>
     </DialogHeader>
-  <DialogFooter>
+  <DialogFooter className="flex flex-row justify-between  ">
     <DialogClose>
     <Button>Cancel</Button>
     </DialogClose>
     <Button
+    className="w-max"
     onClick={() => deleteDetails(id)}
     variant={'destructive'}>Delete</Button>
-
+  
   </DialogFooter>
   </DialogContent>
 </Dialog>

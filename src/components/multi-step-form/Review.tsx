@@ -11,7 +11,10 @@ const Review = ({setCurrentStep} : ReviewProps) => {
     const onClick = () => {
         addDetails({profileDetails, addressDetails, personalDetails});
         toast.success("Record has been added");
-        setCurrentStep(0);
+        setTimeout(() => {
+          setCurrentStep(0);
+          window.location.reload();
+        }, 1500)
     }
   return (
     <div className="my-8 space-y-4">

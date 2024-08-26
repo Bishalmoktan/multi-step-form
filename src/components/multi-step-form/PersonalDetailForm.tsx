@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { CardDescription, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
@@ -27,7 +27,7 @@ const formSchema = z.object({
 });
 
 const PersonalDetailForm = ({ setEnableNext }: PersonalDetailFormProps) => {
-  const { personalDetails, setPersonalDetails } = useAppContext();
+  const { personalDetails, setPersonalDetails} = useAppContext();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,10 +38,12 @@ const PersonalDetailForm = ({ setEnableNext }: PersonalDetailFormProps) => {
     },
   });
 
-  useEffect(() => {
-    form.reset();
-    setEnableNext(false);
-  }, [])
+
+
+  
+
+
+
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setPersonalDetails({

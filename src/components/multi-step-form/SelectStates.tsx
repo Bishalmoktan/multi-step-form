@@ -21,11 +21,33 @@ import { toast } from "sonner";
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const SelectStates = ({ onChange, value }: ControllerRenderProps) => {
-  const [states, setStates] = useState<IStatesData[]>([]);
-  const [selectedState, setSelectedState] = useState(value || "");
+interface SelectStatesProps extends ControllerRenderProps {
+  country?: string;
+}
 
+const SelectStates = ({ onChange, value, country }: SelectStatesProps) => {
   const { selectedCountry } = useAppContext();
+  const [states, setStates] = useState<IStatesData[]>([]);
+  const [selectedState, setSelectedState] = useState(value || '');
+
+  useEffect(() => {
+    const fetchStates = async () => {
+      try {
+        const res = await axios.get(`${apiUrl}/states/${country || selectedCountry}`, {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+        });
+        setStates(res.data);
+      } catch (error) {
+        console.log(error);
+        toast.error("Error fetching the states")
+      }
+    };
+
+    fetchStates();
+  }, [])
 
   useEffect(() => {
     const fetchStates = async () => {
@@ -45,6 +67,8 @@ const SelectStates = ({ onChange, value }: ControllerRenderProps) => {
 
     fetchStates();
   }, [selectedCountry]);
+
+  
 
   const handleStateChange = (state_name: string) => {
     setSelectedState(state_name);

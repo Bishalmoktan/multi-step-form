@@ -4,6 +4,7 @@ import {
   IProfileDetails,
 } from "@/lib/types";
 import React, { createContext, useState, useEffect } from "react";
+import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 
 type AppProviderProps = {
@@ -108,7 +109,7 @@ export function AppProvider({ children }: AppProviderProps) {
   });
 
   useEffect(() => {
-    localStorage.setItem("personalDetails", JSON.stringify(personalDetails));
+      localStorage.setItem("personalDetails", JSON.stringify(personalDetails));
   }, [personalDetails]);
 
   useEffect(() => {
@@ -116,7 +117,12 @@ export function AppProvider({ children }: AppProviderProps) {
   }, [addressDetails]);
 
   useEffect(() => {
-    localStorage.setItem("profileDetails", JSON.stringify(profileDetails));
+    try {
+      localStorage.setItem("personalDetails", JSON.stringify(personalDetails));
+    } catch (error) {
+      console.log(error);
+      toast.error("Select image of smaller size");
+    }
   }, [profileDetails]);
 
   return (

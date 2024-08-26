@@ -54,11 +54,12 @@ const ProfilePicture = ({ setEnableNext }: ProfilePictureProps) => {
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    setProfileDetails({
-      ...profileDetails,
-      img: values.img,
-    });
-    setEnableNext(true);
+      setProfileDetails({
+        ...profileDetails,
+        img: values.img,
+      });
+      setEnableNext(true);
+    
   };
 
   return (
@@ -79,7 +80,7 @@ const ProfilePicture = ({ setEnableNext }: ProfilePictureProps) => {
                     <Input
                       id="profileImage"
                       type="file"
-                      accept="image/png, image/jpeg"
+                      accept="image/png"
                       className="hidden"
                       onChange={handleImageUpload}
                     />

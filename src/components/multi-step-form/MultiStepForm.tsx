@@ -37,6 +37,8 @@ const MultiStepForm = () => {
     }
   }
 
+
+
   const handlePrev = () => {
     if(currentStep >= 0){
       setCurrentStep(prev => prev - 1);
@@ -48,10 +50,10 @@ const MultiStepForm = () => {
         <ProgressBar currentStep={currentStep} steps={steps} />
       </CardHeader>
       <CardContent className="flex-grow">
-        {currentStep == 0 && <PersonalDetailForm setEnableNext={setEnableNext} />}
-        {currentStep == 1 && <Address setEnableNext={setEnableNext} />}
-        {currentStep == 2 && <ProfilePicture setEnableNext={setEnableNext} />}
-        {currentStep == 3 && <Review setCurrentStep={setCurrentStep} />}
+        {currentStep == 0 && <PersonalDetailForm key={currentStep} setEnableNext={setEnableNext} />}
+        {currentStep == 1 && <Address key={currentStep} setEnableNext={setEnableNext} />}
+        {currentStep == 2 && <ProfilePicture key={currentStep} setEnableNext={setEnableNext} />}
+        {currentStep == 3 && <Review key={currentStep} setCurrentStep={setCurrentStep} />}
       {currentStep !== 3 && <div className="text-sm mt-2 text-center">Note: Make sure you click save before you move on</div>}
         
       </CardContent>

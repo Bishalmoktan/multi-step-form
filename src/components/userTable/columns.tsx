@@ -1,8 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ICompleteDetails } from "../app-provider";
-import { Edit } from "lucide-react";
 import { format } from "date-fns";
 import DeleteButton from "./delete-button";
+import UpdateUser from "./update-user";
 
 export const columns: ColumnDef<ICompleteDetails>[] = [
   {
@@ -69,11 +69,7 @@ export const columns: ColumnDef<ICompleteDetails>[] = [
       return (
         <div className="space-y-2">
           <DeleteButton id={id} />
-          <div className="p-2 cursor-pointer hover:bg-accent w-max rounded-md">
-            <div className="flex gap-2 items-center">
-              <Edit /> <span>Update </span>
-            </div>
-          </div>
+          <UpdateUser id={id} />
         </div>
       );
     },
