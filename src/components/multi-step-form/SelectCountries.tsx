@@ -7,27 +7,46 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { ChevronsUpDown, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ICountriesData } from "@/lib/types";
+import { ControllerRenderProps } from "react-hook-form";
+import { useAppContext } from "../app-provider";
+import { toast } from "sonner";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const SelectCountries = () => {
+
+const SelectCountries = ({value, onChange} : ControllerRenderProps) => {
   const [countries, setCountries] = useState<ICountriesData[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState("NP");
+  const [selectedCountry, setSelectedCountry] = useState(value || "Nepal");
+  const { setSelectedCountry: setCountry } = useAppContext();
 
   useEffect(() => {
+    
     const fetchCountries = async () => {
-      const res = await axios.get(`${apiUrl}/countries`, {
-        headers: {
-          "Accept": "application/json",
-          "Authorization": `Bearer ${apiKey}`
-        }
-      });
-      setCountries(res.data);
-    };
+      try {
+        const res = await axios.get(`${apiUrl}/countries`, {
+          headers: {
+            "Accept": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          }
+        });
+        setCountries(res.data);
+        
+      } catch (error) {
+        console.log(error);
+        toast.error("Error fetching the countries")
+      };
+      }
 
     fetchCountries();
   }, []);
+
+
+  const handleCountryChange = (country_name: string) => {
+    setSelectedCountry(country_name);
+    setCountry(country_name);
+    onChange(country_name);
+  }
 
   return (
     <div className="flex flex-col space-y-1.5">
@@ -43,7 +62,7 @@ const SelectCountries = () => {
             )}
           >
             {selectedCountry
-              ? countries.find(country => country.country_short_name === selectedCountry)?.country_name
+              ? countries.find(country => country.country_name === selectedCountry)?.country_name
               : "Select country"}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -57,13 +76,13 @@ const SelectCountries = () => {
                 {countries.map(country => (
                   <CommandItem
                     value={country.country_name}
-                    key={country.country_short_name}
-                    onSelect={() => setSelectedCountry(country.country_short_name)}
+                    key={country.country_name}
+                    onSelect={() => handleCountryChange(country.country_name)} 
                   >
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        country.country_short_name === selectedCountry
+                        country.country_name === selectedCountry
                           ? "opacity-100"
                           : "opacity-0"
                       )}

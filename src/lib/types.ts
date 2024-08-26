@@ -7,3 +7,21 @@ export interface ICountriesData {
 export interface IStatesData {
     state_name: string;
 }
+
+export interface IPersonalDetails {
+    name: string;
+    email: string;
+    phone: string;
+    dateOfBirth: string;
+}
+
+export interface IAddressDetails {
+    country: string;
+    state: string;
+    district: string;
+    city: string;
+}
+
+export interface IProfileDetails {
+    img: string;
+}

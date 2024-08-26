@@ -24,7 +24,7 @@ const ProgressBar = ({ steps, currentStep }: ProgressBarProps) => {
             >
             {index + 1}
           </div>
-          <div className={cn("absolute top-10 w-60  font-medium left-0", index <= currentStep && "text-green-500")}>{step.name}</div>
+          <div className={cn("hidden md:absolute top-10 w-60  font-medium left-0", index <= currentStep && "text-green-500")}>{step.name}</div>
               </div>
           {index !== steps.length - 1 && <div className={cn("bg-gray-500 w-full h-1", index < currentStep && "bg-green-500")}></div>}
         </>

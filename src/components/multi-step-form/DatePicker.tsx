@@ -1,13 +1,21 @@
-import * as React from "react"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { ControllerRenderProps } from "react-hook-form";
 
-export function SampleDatePicker() {
-  const [date, setDate] = React.useState<Date>()
+type SampleDatePickerProps = ControllerRenderProps;
+
+export function SampleDatePicker({ value, onChange }: SampleDatePickerProps) {
+  const [date, setDate] = React.useState<Date | undefined>(value ? new Date(value) : undefined);
+
+  const handleDateChange = (newDate: Date | undefined) => {
+    setDate(newDate);
+    onChange(newDate ? newDate.toISOString().split("T")[0] : "");
+  };
 
   return (
     <Popover>
@@ -20,16 +28,16 @@ export function SampleDatePicker() {
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className=" w-auto p-0">
+      <PopoverContent align="start" className="w-auto p-0">
         <Calendar
           mode="single"
           captionLayout="dropdown-buttons"
-          selected={date}
-          onSelect={setDate}
+          selected={date}          
+          onSelect={handleDateChange}
           fromYear={1960}
           toYear={2030}
         />
       </PopoverContent>
     </Popover>
-  )
+  );
 }

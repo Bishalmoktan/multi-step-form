@@ -5,6 +5,7 @@ import PersonalDetailForm from "./PersonalDetailForm"
 import { Button } from "../ui/button"
 import Address from "./Address"
 import ProfilePicture from "./ProfilePicture"
+import Review from "./Review"
 
 const steps = [
   {
@@ -27,7 +28,8 @@ const steps = [
 ]
 
 const MultiStepForm = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [enableNext, setEnableNext] = useState(false);
 
   const handleNext = () => {
     if(currentStep <= steps.length - 1){
@@ -46,13 +48,16 @@ const MultiStepForm = () => {
         <ProgressBar currentStep={currentStep} steps={steps} />
       </CardHeader>
       <CardContent className="flex-grow">
-        {currentStep == 0 && <PersonalDetailForm />}
-        {currentStep == 1 && <Address />}
-        {currentStep == 2 && <ProfilePicture />}
+        {currentStep == 0 && <PersonalDetailForm setEnableNext={setEnableNext} />}
+        {currentStep == 1 && <Address setEnableNext={setEnableNext} />}
+        {currentStep == 2 && <ProfilePicture setEnableNext={setEnableNext} />}
+        {currentStep == 3 && <Review setCurrentStep={setCurrentStep} />}
+      {currentStep !== 3 && <div className="text-sm mt-2 text-center">Note: Make sure you click save before you move on</div>}
+        
       </CardContent>
       <CardFooter className="flex justify-between">
        <Button onClick={handlePrev} disabled={currentStep <= 0}>Prev</Button>
-       <Button onClick={handleNext} disabled={currentStep >= steps.length - 1}>Next </Button>
+     { currentStep !== 3 && <Button onClick={handleNext} disabled={!enableNext || (currentStep >= steps.length - 1)}>Next </Button>}
       </CardFooter>
     </Card>
   )
